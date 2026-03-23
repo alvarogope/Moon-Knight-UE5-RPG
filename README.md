@@ -8,10 +8,10 @@
 A solo-developed third-person action RPG built in Unreal Engine 5. All core gameplay systems — combat, enemy AI, animation, inventory, equip, dialogue, target lock, and death — were designed and implemented from scratch using Blueprint Visual Scripting.
  
 ---
-
-## 🎬 Gameplay Preview
  
-> 📽️ *Gameplay footage coming soon*
+## 🎬 Gameplay Preview
+
+[![Moon Knight Gameplay](assets/MoonKnight_Poster.png)]([https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://youtu.be/MnGfEbrWqQs))
 
 ---
 
