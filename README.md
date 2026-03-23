@@ -1,6 +1,7 @@
 # Moon Knight — UE5 Action RPG
  
 ![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine%205-0E1128?style=flat&logo=unrealengine&logoColor=white)
+| 🗡️ [Moon Knight — UE5 Action RPG](https://github.com/alvarogope/Moon-Knight-UE5-RPG) | Solo-developed third-person action RPG — combat combo system, enemy AI Behaviour Trees, target lock, inventory, and dialogue | UE5, Blueprints, C++ |
 ![C++](https://img.shields.io/badge/C++-00599C?style=flat&logo=cplusplus&logoColor=white)
 ![Blueprints](https://img.shields.io/badge/Blueprints-Visual%20Scripting-0E1128?style=flat&logo=unrealengine&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-In%20Development-orange?style=flat)
