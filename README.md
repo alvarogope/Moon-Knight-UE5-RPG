@@ -175,6 +175,14 @@ moon-knight-ue5-rpg/
 
 ---
 
+## 🧠 Technical Challenges
+
+The most complex system to implement was the **sword hit detection** — a naive approach using collision boxes caused missed hits and double-hits during fast animations. The solution was a looping `Sphere Trace By Channel` running every 0.001s between the sword's top and bottom bone sockets, active only during the attack window and stopped immediately on notify end. This gave frame-accurate hit detection regardless of animation speed.
+
+The **AI detection system** required separating standard enemy logic from the mini-boss entirely — the standard enemy uses a three-state investigation flow, while the mini-boss uses a `Simple Parallel` node to chase and attack simultaneously, creating a noticeably more aggressive feel without additional complexity.
+
+---
+
 ## 📸 Blueprint Highlights
  
 ### Behaviour Tree — Standard Enemy
