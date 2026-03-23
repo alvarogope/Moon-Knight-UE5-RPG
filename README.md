@@ -70,7 +70,7 @@ Patrol ↔ Combat (Chase + Attack simultaneously)
  
 | | Standard Enemy | Mini-Boss |
 |---|---|---|
-| Max health | — | 350 |
+| Max health | 200 | 350 |
 | Investigation | Yes (9s) | No |
 | Chase + Attack | Sequential | Simultaneous (Simple Parallel) |
 | Health bar | Shared HUD | Dedicated widget |
