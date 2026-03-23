@@ -4,7 +4,6 @@
 ![Enhanced Input](https://img.shields.io/badge/Enhanced%20Input%20System-0E1128?style=flat&logo=unrealengine&logoColor=white)
 ![C++](https://img.shields.io/badge/C++-00599C?style=flat&logo=cplusplus&logoColor=white)
 ![Blueprints](https://img.shields.io/badge/Blueprints-Visual%20Scripting-0E1128?style=flat&logo=unrealengine&logoColor=white)
-![Status](https://img.shields.io/badge/Status-In%20Development-orange?style=flat)
  
 A solo-developed third-person action RPG built in Unreal Engine 5. All core gameplay systems — combat, enemy AI, animation, inventory, equip, dialogue, target lock, and death — were designed and implemented from scratch using Blueprint Visual Scripting.
  
