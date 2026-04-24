@@ -11,7 +11,7 @@ A solo-developed third-person action RPG built in Unreal Engine 5. All core game
  
 ## 🎬 Gameplay Preview
 
-[![Moon Knight Gameplay](assets/Poster_MoonKnight.png)]([https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://youtu.be/MnGfEbrWqQs))
+[![Moon Knight Gameplay](assets/Poster_MoonKnight.png)](https://youtu.be/MnGfEbrWqQs)
 
 ---
 
