@@ -1,4 +1,4 @@
-# Moon Knight — UE5 Action RPG
+# Moon Knight · Unreal Engine 5 · Action RPG
  
 ![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine%205-0E1128?style=flat&logo=unrealengine&logoColor=white)
 ![Enhanced Input](https://img.shields.io/badge/Enhanced%20Input%20System-0E1128?style=flat&logo=unrealengine&logoColor=white)
