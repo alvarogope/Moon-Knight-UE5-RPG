@@ -1,21 +1,18 @@
-# Moon Knight · Dark Fantasy Action RPG · Unreal Engine 5
+# Moon Knight — Dark Fantasy Action RPG
 
 ![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine%205-0E1128?style=flat&logo=unrealengine&logoColor=white)
 ![C++](https://img.shields.io/badge/C++-00599C?style=flat&logo=cplusplus&logoColor=white)
 ![Blueprints](https://img.shields.io/badge/Blueprints-Visual%20Scripting-0E1128?style=flat&logo=unrealengine&logoColor=white)
-![Status](https://img.shields.io/badge/Status-In%20Development-orange?style=flat)
 
 A solo-developed dark fantasy action RPG built in Unreal Engine 5, exploring the research question: **"How could quantum computing change video game mechanics in role-playing games?"**
 
 All core systems were designed and implemented from scratch: combat, AI, inventory, equip, dialogue, target lock, and a dual skill tree including a set of quantum-inspired abilities derived from real quantum mechanics principles.
 
-> 🎓 Developed as part of an MA dissertation in Game Development at Kingston University London. Distinction awarded across all components.
-
 ---
 
 ## 🎬 Gameplay Preview
 
-[![Watch Gameplay](https://img.shields.io/badge/Watch%20Gameplay-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+[![Moon Knight Gameplay](assets/Poster_MoonKnight.png)](https://youtu.be/MnGfEbrWqQs)
 
 ---
 
@@ -182,7 +179,6 @@ moon-knight-ue5-rpg/
 | AI perception, detection, sight stimulus | Blueprint (AI Detection BP) |
 | Inventory Data Table, equip socket swap | Blueprint (BPC_Equipment System) |
 | Player base class, component registration | C++ (APlayerCharacter) |
-| Quantum ability interface and state | C++ (UQuantumAbilityComponent) |
 | Enemy AI controller base | C++ (AEnemyAIController) |
 | Game Instance equip persistence | C++ (UMoonKnightGameInstance) |
 
@@ -223,9 +219,3 @@ git clone https://github.com/alvarogope/Moon-Knight-UE5-RPG.git
 
 Full project breakdown, GDD, and design documentation available at:
 [alvarogomezgamedesign.wordpress.com/moon-knight](https://alvarogomezgamedesign.wordpress.com/moon-knight/)
-
----
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
