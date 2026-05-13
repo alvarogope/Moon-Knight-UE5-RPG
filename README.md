@@ -1,4 +1,4 @@
-# Moon Knight — Dark Fantasy Action RPG
+# Moon Knight · Dark Fantasy Action RPG
 
 ![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine%205-0E1128?style=flat&logo=unrealengine&logoColor=white)
 ![C++](https://img.shields.io/badge/C++-00599C?style=flat&logo=cplusplus&logoColor=white)
