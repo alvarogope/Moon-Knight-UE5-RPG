@@ -68,7 +68,7 @@ protected:
 	int32 ComboCounter = 0;
 
     UPROPERTY(EditAnywhere, Category = "Combat")
-	int32 MaxComboLength = 3;
+	int32 MaxComboLength = 4;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	bool bInCombat = false;
