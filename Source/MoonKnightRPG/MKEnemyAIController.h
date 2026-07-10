@@ -1,76 +1,47 @@
-// AEnemyAIController.h
-// Moon Knight — Enemy AI Controller Base Class
-// Base for both standard enemy and mini-boss (Werewolf) AI controllers.
-// Each enemy type runs its own Behaviour Tree:
-//   Standard enemy: BD_AI    (Patrol -> Investigate -> Chase -> Attack)
-//   Mini-boss:      BD_Werewolf (Patrol / Combat via Simple Parallel)
-//
-// Perception is handled by UAIPerceptionComponent using sight stimulus.
-// On detection, TargetActor is written to the Blackboard.
-// On losing sight, the Blackboard key is cleared.
+//===================================================//
+//-------- AI contoller for humanoid enemies --------//
+//===================================================//
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "Perception/AIPerceptionComponent.h"
-#include "BehaviorTree/BlackboardComponent.h"
-#include "AEnemyAIController.generated.h"
+#include "MKPlayerCharacter.h"
+#include "Perception/AIPerceptionTypes.h"
+#include "MoonKnightRPG.h"
+#include "MKEnemyAIController.generated.h"
+
+class UAIPerceptionComponent;
+class UAISenseConfig_Sight;
+class UAISenseConfig_Hearing;
+class UBehaviorTree;
 
 UCLASS()
-class MOONKNIGHT_API AEnemyAIController : public AAIController
+class MOONKNIGHTRPG_API AMKEnemyAIController : public AAIController
 {
     GENERATED_BODY()
 
 public:
-    AEnemyAIController();
+    AMKEnemyAIController();
 
 protected:
-    virtual void BeginPlay() override;
+    virtual void OnPossess(APawn* InPawn) override;
 
-    // Called by UE5 Perception System when a stimulus is detected or lost
     UFUNCTION()
-    virtual void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+    void OnTargetPerceptionUpdated(AACtor* Actor, FAIStimulus Stimulus);
 
-public:
-    // -------------------------------------------------------
-    // PERCEPTION
-    // Sight radius varies by enemy type:
-    //   Standard enemy: 1200 units, 90 degree FOV
-    //   Mini-boss: wider aggro radius
-    // Hearing radius: 800 units (triggers investigation)
-    // -------------------------------------------------------
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTreeAsset;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI|Perception")
-    UAIPerceptionComponent* PerceptionComponent;
+	UPROPERTY(VisibleAnywhere, Category = "AI")
+	TObjectPtr<UAIPerceptionComponent> PerceptionComp;
 
-    // -------------------------------------------------------
-    // BEHAVIOUR TREE
-    // Assigned per enemy subclass:
-    //   BP_AIController      -> BD_AI
-    //   BP_AIController_MiniBoss -> BD_Werewolf
-    // -------------------------------------------------------
+	UPROPERTY(VisibleAnywhere, Category = "AI")
+	TObjectPtr<UAISenseConfig_Sight> SightConfig;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
-    class UBehaviorTree* BehaviorTree;
+	UPROPERTY(VisibleAnywhere, Category = "AI")
+	TObjectPtr<UAISenseConfig_Hearing> HearingConfig;
 
-    // -------------------------------------------------------
-    // BLACKBOARD KEYS
-    // TargetActor: set on sight detection, cleared on sight loss
-    // InvestigationLocation: set on hearing detection
-    // -------------------------------------------------------
-
-    // Blackboard key name for the target actor reference
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI|Blackboard")
-    FName TargetActorKey = FName("Target Actor");
-
-    // Blackboard key name for the investigation location
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI|Blackboard")
-    FName InvestigationLocationKey = FName("Investigation Location");
-
-    // Write target to Blackboard on detection
-    void SetTarget(AActor* Target);
-
-    // Clear Blackboard target key on sight loss
-    void ClearTarget();
-};
+    static const FName TargetActorKey;
+    static const FName InvestigateLocationKey;
+}
