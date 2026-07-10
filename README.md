@@ -14,11 +14,7 @@ All core systems were designed and implemented from scratch: combat, AI, invento
 
 ## 🎬 Gameplay Preview
 
-[Moon Knight Gameplay](https://youtu.be/MnGfEbrWqQs)
-
----
-
-[![Watch Gameplay](https://img.shields.io/badge/Watch%20Gameplay-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+[![Moon Knight Gameplay](assets/Poster_MoonKnight.png)](https://youtu.be/MnGfEbrWqQs)
 
 ---
 
