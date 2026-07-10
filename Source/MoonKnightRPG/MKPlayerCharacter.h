@@ -1,92 +1,78 @@
-// APlayerCharacter.h
-// Moon Knight — Player Character Base Class
-// Registers core components and exposes properties used by Blueprint subclass.
-// Combat logic, animation, and input handling are implemented in Blueprints.
-// This class establishes the C++ foundation those Blueprints build on.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "UQuantumAbilityComponent.h"
-#include "APlayerCharacter.generated.h"
-
-// Combat state — drives animation Blueprint transitions and input gating
-UENUM(BlueprintType)
-enum class ECombatState : uint8
-{
-    Idle            UMETA(DisplayName = "Idle"),
-    Attacking       UMETA(DisplayName = "Attacking"),   // IsAttacking = true
-    Dodging         UMETA(DisplayName = "Dodging"),     // Mid-combo dodge available at any point
-    HitReacting     UMETA(DisplayName = "Hit Reacting"),
-    Dead            UMETA(DisplayName = "Dead")
-};
+#include "MoonKnightRPG.h"                    
+#include "MKPlayerCharacter.generated.h" 
+#include "MoonKnightRPH.h"
 
 UCLASS()
-class MOONKNIGHT_API APlayerCharacter : public ACharacter
+class MOONKNIGHTRPG_API AMKPlayerCharacter : public ACharacter
 {
     GENERATED_BODY()
 
 public:
-    APlayerCharacter();
+    AMKPlayerCharacter();
+
+    virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
+        AController* EventInstigator, AActor* DamageCauser) override;
+
+    UFUNCTION(BlueprintCallable, Category = "Combat")
+    void LightAttack();
+
+    UFUNCTION(BlueprintCallable, Category = "Combat")
+    void Dodge();
+
+    UFUNCTION(BlueprintCallable, Category = "Combat")
+    void StartParry();
+
+    UFUNCTION(BlueprintCallable, Category = "Combat")
+    void ResetCombatState();
+
+    //--- NO HEALING IN COMBAT ---//
+    UFUNCTION(BlueprintCallable, Category = "Health")
+    bool tryHealth(float Amount);
+
+    UFUNCTION(BlueprintPure, Category = "Health")
+    bool IsInCombat() const { return bInCombat; }
+
+    UFUNCTION(BlueprintPure, Category = "Health")
+    float GetHealthPercent() const { return MaxHealth > 0.f ? CurrentHealth / MaxHealth : 0.f; }
 
 protected:
     virtual void BeginPlay() override;
 
-public:
-    virtual void Tick(float DeltaTime) override;
-    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    UFUNCTION(BlueprintImplementableEvent, Category = "Death")
+    void OnDeathFadeStart(float FadeDuration);
 
-    // -------------------------------------------------------
-    // STATS
-    // Health drives the moon-phase HUD bar via SetPercent
-    // -------------------------------------------------------
+    UFUNCTION(BlueprintImplementableEvent, Category = "Combat")
+    void OnComboAttack(int32 ComboIndex);
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats|Health")
+    void HandleDeath();
+    void Respawn();
+
+    //--- STATE ---//
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
     float MaxHealth = 100.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats|Health")
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Health")
     float CurrentHealth = 100.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats|Combat")
-    float BaseDamage = 200.f;  // Applied via ApplyDamage on sword trace hit
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats|Progression")
-    int32 Level = 1;
-
-    // -------------------------------------------------------
-    // COMBAT STATE
-    // Managed by BPC_Attack System Blueprint component
-    // -------------------------------------------------------
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
     ECombatState CombatState = ECombatState::Idle;
 
-    // Attack index drives the Switch on Int combo chain (0 = reset, 1-4 = attacks)
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
-    int32 AttackIndex = 0;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")ç
+    EWeaponType EquippedWeapon = EWeaponType::Sword;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
-    bool bIsAttacking = false;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	int32 ComboCounter = 0;
 
-    // SaveAttack: true when player inputs during an active attack, queues next in chain
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
-    bool bSaveAttack = false;
+    UPROPERTY(EditAnywhere, Category = "Combat")
+	int32 MaxComboLength = 3;
 
-    // -------------------------------------------------------
-    // TARGET LOCK
-    // Sphere trace (r=200, range=1500) from camera forward
-    // Filters PhysicsBody + Pawn, validated by "Damageable" tag
-    // -------------------------------------------------------
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	bool bInCombat = false;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat|TargetLock")
-    AActor* ActorToTargetLock = nullptr;
-
-    // -------------------------------------------------------
-    // QUANTUM ABILITY COMPONENT
-    // Manages The Power of the Gods skill tree state
-    // -------------------------------------------------------
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Abilities")
-    UQuantumAbilityComponent* QuantumAbilityComponent;
+    FTimerHandle RespawnTimerHandle;
+    FTimerHandle ComboResetTimerHandle;
 };
