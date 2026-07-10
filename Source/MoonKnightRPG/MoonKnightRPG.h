@@ -1,6 +1,6 @@
-// Primary game module header for Moon-Knight
-// Owns the shared types and design constants used across the module, so that
-//    tuning values from the Game Design Document live in exactly one place.
+//===================================================//
+//------------------- GAME MODULE -------------------//
+//===================================================//
 
 #pragma once
 
