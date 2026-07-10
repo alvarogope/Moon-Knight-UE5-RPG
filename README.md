@@ -18,38 +18,31 @@ All core systems were designed and implemented from scratch: combat, AI, invento
 
 ---
 
-
-
-## 📸 Screenshots
-
-
-
-### Behaviour Tree — Standard Enemy
-
-Standard Enemy Behaviour Tree
-
-### Behaviour Tree — Mini-Boss (Werewolf)
-
-Werewolf Behaviour Tree
-
-### Combat System — Combo Chain
-
-Combat System Blueprints
-
-### Sword Trace — Hit Detection
-
-Sword Trace
-
-### Mini-Boss Combat Activation
-
-MiniBoss Combat
-
-### Target Lock System
-
-Target Lock
+[![Watch Gameplay](https://img.shields.io/badge/Watch%20Gameplay-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
 
 ---
 
+## 📸 Screenshots
+
+### Behaviour Tree — Standard Enemy
+![Standard Enemy Behaviour Tree](assets/AI_Behaviour_Tree.png)
+
+### Behaviour Tree — Mini-Boss (Werewolf)
+![Werewolf Behaviour Tree](assets/Behaviour_Tree_Werewolf.png)
+
+### Combat System — Combo Chain
+![Combat System Blueprints](assets/Combat_System_Blueprints.png)
+
+### Sword Trace — Hit Detection
+![Sword Trace](assets/Sword_Trace.png)
+
+### Mini-Boss Combat Activation
+![MiniBoss Combat](assets/MiniBoss_Combat.png)
+
+### Target Lock System
+![Target Lock](assets/Target_Lock.png)
+
+---
 
 
 ## 🔬 Research Premise
