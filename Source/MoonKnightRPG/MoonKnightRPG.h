@@ -7,11 +7,6 @@
 #include "CoreMinimal.h"
 #include "MoonKnightRPG.generated.h"
 
-/*
-    Combat states for the Moon-Knight and humanoid enemies.
-    Single definition for the whole module ---> DO NOT REDELCARE IN OTHER HEADERS
-    The player character, enemy AI, and animation Blueprints all read this.
-*/
 
 UENUM(BlueprintType)
 enum class ECombatState : uint8
@@ -24,10 +19,6 @@ enum class ECombatState : uint8
     Dead            UMETA(DisplayName = "Dead")
 };
 
-/*
-    Weapon categories available to the Moon-knight (GDD Ch. 5: sword, bow;
-    alchemy/magic reserved for the specialisation path).
- */
 
 namespace MoonKnightConstants 
 {
