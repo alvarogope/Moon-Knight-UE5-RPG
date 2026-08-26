@@ -4,7 +4,6 @@
 #include "GameFramework/Character.h"
 #include "MoonKnightRPG.h"                    
 #include "MKPlayerCharacter.generated.h" 
-#include "MoonKnightRPH.h"
 
 UCLASS()
 class MOONKNIGHTRPG_API AMKPlayerCharacter : public ACharacter
@@ -31,7 +30,7 @@ public:
 
     //--- NO HEALING IN COMBAT ---//
     UFUNCTION(BlueprintCallable, Category = "Health")
-    bool tryHealth(float Amount);
+    bool TryHealth(float Amount);
 
     UFUNCTION(BlueprintPure, Category = "Health")
     bool IsInCombat() const { return bInCombat; }
@@ -61,7 +60,7 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
     ECombatState CombatState = ECombatState::Idle;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")ç
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
     EWeaponType EquippedWeapon = EWeaponType::Sword;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")

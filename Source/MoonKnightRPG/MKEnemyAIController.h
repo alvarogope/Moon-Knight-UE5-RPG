@@ -17,6 +17,7 @@ class UAISenseConfig_Hearing;
 class UBehaviorTree;
 
 UCLASS()
+
 class MOONKNIGHTRPG_API AMKEnemyAIController : public AAIController
 {
     GENERATED_BODY()
@@ -28,7 +29,7 @@ protected:
     virtual void OnPossess(APawn* InPawn) override;
 
     UFUNCTION()
-    void OnTargetPerceptionUpdated(AACtor* Actor, FAIStimulus Stimulus);
+    void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	TObjectPtr<UBehaviorTree> BehaviorTreeAsset;
@@ -44,4 +45,4 @@ protected:
 
     static const FName TargetActorKey;
     static const FName InvestigateLocationKey;
-}
+};

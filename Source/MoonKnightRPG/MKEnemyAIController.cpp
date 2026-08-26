@@ -9,7 +9,7 @@
 const FName AMKEnemyAIController::TargetActorKey(TEXT("TargetActor"));
 const FName AMKEnemyAIController::InvestigateLocationKey(TEXT("InvestigateLocation"));
 
-AMKEnemyAIController::AMKEnemyController()
+AMKEnemyAIController::AMKEnemyAIController()
 {
     PerceptionComp = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("PerceptionComp"));
 
@@ -61,9 +61,9 @@ void AMKEnemyAIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus 
 
     if (AMKPlayerCharacter* Player = Cast<AMKPlayerCharacter>(Actor))
     {
-        if (Stimulus.WasSuccesfullySensed())
+        if (Stimulus.WasSuccessfullySensed())
         {
-            BB->SetValue(TargetActorKey);
+            BB->SetValueAsObject(TargetActorKey, Actor);
             BB->SetValueAsVector(InvestigateLocationKey, Stimulus.StimulusLocation);
         }
         return;

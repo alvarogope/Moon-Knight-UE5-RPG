@@ -6,6 +6,7 @@
 
 #include "CoreMinimal.h"
 #include "MoonKnightRPG.generated.h"
+#include <cstdint>
 
 
 UENUM(BlueprintType)
@@ -17,6 +18,13 @@ enum class ECombatState : uint8
     Parrying	    UMETA(DisplayName = "Parrying"),
 	Staggered	    UMETA(DisplayName = "Staggered"),
     Dead            UMETA(DisplayName = "Dead")
+};
+
+ENUM(BlueprintType)
+enum class EWeaponType : uint8
+{
+    Sword   UMETA(DisplayName = "Sword"),
+    Bow     UMETA(DisplayName = "Bow")
 };
 
 

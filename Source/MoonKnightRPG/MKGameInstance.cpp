@@ -17,7 +17,7 @@ void UMKGameInstance::RespawnAtLastWillowTree(AMKPlayerCharacter* Player)
 //------------- WILLOW TREE DEATH RESPAWN -------------//
     if (bHasCheckpoint)
     {
-        Player->SetActorLocation(LastWillowTreeLocation, false, nullptrd,
+        Player->SetActorLocation(LastWillowTreeLocation, false, nullptr,
             ETeleportType::TeleportPhysics);
     }
 }

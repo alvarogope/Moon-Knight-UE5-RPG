@@ -1,18 +1,18 @@
 #include "MKPlayerCharacter.h"
 #include "MKGameInstance.h"
-#include "MoonKnightRPH.h"
+#include "MoonKnightRPG.h"
 #include "TimerManager.h"
 #include "Kismet/GameplayStatics.h"
 
 AMKPlayerCharacter::AMKPlayerCharacter()
 {
-    PRimaryActoerTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = false;
 }
 
 void AMKPlayerCharacter::BeginPlay()
 {
     Super::BeginPlay();
-    CurrentHealth = maxHealth;
+    CurrentHealth = MaxHealth;
 }
 
 float AMKPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
@@ -31,7 +31,7 @@ float AMKPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dam
         return 0.f;
     }
 
-    const float Applied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCausser);
+    const float Applied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
     CurrentHealth = FMath::Clamp(CurrentHealth - Applied, 0.f, MaxHealth);
     bInCombat = true;
 
@@ -60,7 +60,7 @@ void AMKPlayerCharacter::LightAttack()
     //=========================================//
     //--- RESET THE COMBO WITHOUT FOLLOW-UP ---//
     //=========================================//
-    GetWorldTimerManager().setTimer(ComboResetTimerHandle, this,
+    GetWorldTimerManager().SetTimer(ComboResetTimerHandle, this,
         &AMKPlayerCharacter::ResetCombatState, 1.2f, false);
 }
 
@@ -94,7 +94,7 @@ void AMKPlayerCharacter::ResetCombatState()
 	}
 }
 
-bool AMKPlayerCharacter::TryHeal(float Amount)
+bool AMKPlayerCharacter::TryHealth(float Amount)
 {
     if (bInCombat || CombatState == ECombatState::Dead)
     {
@@ -115,12 +115,13 @@ void AMKPlayerCharacter::HandleDeath()
         &AMKPlayerCharacter::Respawn, MoonKnightConstants::RespawnDelay, false);
 }
 
+
+//=========================================//
+//---------- WILLOW TREE RESPAWN ----------//
+//=========================================//
 void AMKPlayerCharacter::Respawn()
 {
-    //=========================================//
-    //---------- WILLOW TREE RESPAWN ----------//
-    //=========================================//
-    if (UMKGameInstance* GI = Cast<UMKGameInstance>(UGamepayStatistics::GetGameInstance(this)))
+    if (UMKGameInstance* GI = Cast<UMKGameInstance>(UGameplayStatics::GetGameInstance(this)))
     {
         GI->RespawnAtLastWillowTree(this);
     }
