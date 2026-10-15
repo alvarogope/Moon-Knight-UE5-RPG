@@ -12,14 +12,14 @@ All core systems were designed and implemented from scratch: combat, AI, invento
 
 
 
-## 🎬 Gameplay Preview
+## Gameplay Preview
 
 [![Moon Knight Gameplay](assets/mk-poster.png)](https://youtu.be/MnGfEbrWqQs)
 *▶ Click to watch the gameplay demo on YouTube*
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Behaviour Tree — Standard Enemy
 ![Standard Enemy Behaviour Tree](assets/AI_Behaviour_Tree.png)
@@ -42,7 +42,7 @@ All core systems were designed and implemented from scratch: combat, AI, invento
 ---
 
 
-## 🔬 Research Premise
+## Research Premise
 
 The project investigates whether quantum mechanics principles (superposition, entanglement, inversion, orbital force) can be translated into viable, fun gameplay systems for an action RPG — without requiring real quantum hardware.
 
@@ -52,7 +52,7 @@ Each quantum ability in the game is derived from a real quantum concept, reinter
 
 
 
-## ⚔️ Combat System
+## Combat System
 
 Fast-paced, no-block, parry-based encounters built around player aggression and high-risk decision making. The player is rewarded for attacking and punished for passive play.
 
@@ -67,7 +67,7 @@ Fast-paced, no-block, parry-based encounters built around player aggression and 
 
 
 
-## 🌳 Dual Skill Tree System
+## Dual Skill Tree System
 
 
 | Tree                  | Gate        | Description                                                  |
@@ -82,7 +82,7 @@ The two trees are designed to reward different play styles — aggression versus
 
 
 
-## ⚛️ Quantum Ability System (The Power of the Gods)
+## Quantum Ability System (The Power of the Gods)
 
 Each ability is derived from a real quantum mechanics principle and translated into a gameplay mechanic:
 
@@ -100,7 +100,7 @@ Each ability is derived from a real quantum mechanics principle and translated i
 
 
 
-## 🤖 Enemy AI
+## Enemy AI
 
 Two distinct enemy types, each driven by a custom Behaviour Tree:
 
@@ -134,7 +134,7 @@ Patrol / Combat (Chase + Attack simultaneously via Simple Parallel)
 
 
 
-## 🗺️ World Areas
+## World Areas
 
 
 | Area                 | Description                                                          |
@@ -149,7 +149,7 @@ Patrol / Combat (Chase + Attack simultaneously via Simple Parallel)
 
 
 
-## 🎒 Inventory and Equip System
+## Inventory and Equip System
 
 - Slot-based inventory backed by a Data Table using S_Slots and S_Items structs
 - Item rows store: Name, Damage, Icon, StaticMesh, Type, WeaponSocket
@@ -161,7 +161,7 @@ Patrol / Combat (Chase + Attack simultaneously via Simple Parallel)
 
 
 
-## 🖥️ UI Design
+## UI Design
 
 
 | Element              | Description                                                           |
@@ -177,7 +177,7 @@ Patrol / Combat (Chase + Attack simultaneously via Simple Parallel)
 
 
 
-## 🏗️ Repository Structure
+## Repository Structure
 
 ```
 moon-knight-ue5-rpg/
@@ -213,7 +213,7 @@ moon-knight-ue5-rpg/
 
 
 
-## 🧠 Coding Choices
+## Coding Choices
 
 
 
@@ -271,7 +271,7 @@ To use this code in the full UE5 project:
 
 
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 
 |           |                                               |
@@ -289,7 +289,7 @@ To use this code in the full UE5 project:
 
 
 
-## 🚀 Running Locally
+## Running Locally
 
 This project requires Unreal Engine 5 installed via the Epic Games Launcher.
 
@@ -308,7 +308,7 @@ git clone https://github.com/alvarogope/Moon-Knight-UE5-RPG.git
 
 
 
-## 🔗 Portfolio
+## Portfolio
 
 Full project breakdown, GDD, and design documentation available at:
 [alvarogomezgames.com/moon-knight](https://www.alvarogomezgames.com/moon-knight)
