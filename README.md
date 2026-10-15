@@ -1,4 +1,4 @@
-# Moon Knight · Dark Fantasy Action RPG
+# Moon Knight: a Dark Fantasy Action RPG
 
 Unreal Engine
 C++
