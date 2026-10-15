@@ -311,4 +311,5 @@ git clone https://github.com/alvarogope/Moon-Knight-UE5-RPG.git
 ## 🔗 Portfolio
 
 Full project breakdown, GDD, and design documentation available at:
-[alvarogomezgamedesign.wordpress.com/moon-knight](https://alvarogomezgamedesign.wordpress.com/moon-knight/)
+[alvarogomezgames.com/moon-knight](https://www.alvarogomezgames.com/moon-knight)
+[https://www.alvarogomezgames.com/moon-knight/engineering](https://www.alvarogomezgames.com/moon-knight/engineering)
