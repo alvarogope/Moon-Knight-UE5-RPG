@@ -13,15 +13,17 @@ AMKPlayerCharacter::AMKPlayerCharacter()
 void AMKPlayerCharacter::BeginPlay()
 {
     Super::BeginPlay();
-    CurrentHealth = MaxHealth;
-    SpawnLocation = GetActorLocation();
 
-    //--- Restore the weapon carried over from the previous level ---//
-    if (const UMKGameInstance* GI = Cast<UMKGameInstance>(UGameplayStatics::GetGameInstance(this)))
+    SpawnLocation = GetActorLocation();
+    CurrentHealth = MaxHealth;
+
+    //--- RESTORE THE WEAPON SAVED IN THE GAME INSTANCE ---//
+    if (UMKGameInstance* GI = Cast<UMKGameInstance>(UGameplayStatics::GetGameInstance(this)))
     {
         EquippedWeapon = GI->GetSavedWeapon();
     }
 }
+
 
 float AMKPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
     AController* EventInstigator, AActor* DamageCauser)
@@ -31,23 +33,58 @@ float AMKPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dam
         return 0.f;
     }
 
-    //==================================//
-    //--- PARRY TO HUMANOIDS ENEMIES ---//
-    //==================================//
+    //======================================//
+    //--- PARRY NEGATES ANY INCOMING HIT ---//
+    //======================================//
     if (CombatState == ECombatState::Parrying)
     {
         return 0.f;
     }
 
+    //====================================//
+    //--- DODGE INVULNERABILITY FRAMES ---//
+    //====================================//
+    if (CombatState == ECombatState::Dodging)
+    {
+        return 0.f;
+    }
+
     const float Applied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+    if (Applied <= 0.f)
+    {
+        return 0.f;
+    }
+
     CurrentHealth = FMath::Clamp(CurrentHealth - Applied, 0.f, MaxHealth);
     EnterCombat();
 
     if (CurrentHealth <= 0.f)
     {
         HandleDeath();
+        return Applied;
     }
+
+    //============================================//
+    //--- STAGGER: INPUT LOCKED UNTIL RECOVERY ---//
+    //============================================//
+    CombatState = ECombatState::Staggered;
+    ComboCounter = 0;
+    DisableInput(Cast<APlayerController>(GetController()));
+    GetWorldTimerManager().SetTimer(CombatStateTimerHandle, this,
+        &AMKPlayerCharacter::EndStagger, MoonKnightConstants::StaggerDuration, false);
+
     return Applied;
+}
+
+void AMKPlayerCharacter::EndStagger()
+{
+    if (CombatState != ECombatState::Staggered)
+    {
+        return;
+    }
+
+    EnableInput(Cast<APlayerController>(GetController()));
+    ResetCombatState();
 }
 
 void AMKPlayerCharacter::LightAttack()
@@ -73,7 +110,8 @@ void AMKPlayerCharacter::LightAttack()
 
 void AMKPlayerCharacter::Dodge()
 {
-    if (CombatState == ECombatState::Dead)
+    //--- Only from Idle or mid-combo: no dodge spam, no dodge out of stagger or parry ---//
+    if (CombatState != ECombatState::Idle && CombatState != ECombatState::Attacking)
     {
         return;
     }
@@ -90,7 +128,7 @@ void AMKPlayerCharacter::Dodge()
 
 void AMKPlayerCharacter::StartParry()
 {
-    if (CombatState == ECombatState::Idle || CombatState == ECombatState::Dodging)
+    if (CombatState == ECombatState::Idle)
     {
         CombatState = ECombatState::Parrying;
 

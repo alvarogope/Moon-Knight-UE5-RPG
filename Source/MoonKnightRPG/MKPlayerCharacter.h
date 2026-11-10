@@ -52,6 +52,7 @@ protected:
 
     void HandleDeath();
     void Respawn();
+    void EndStagger();
 
     //--- Combat flag: cleared after OutOfCombatDelay without attacking or taking damage ---//
     void EnterCombat();
@@ -59,13 +60,13 @@ protected:
 
     //--- STATE ---//
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
-    float MaxHealth = 100.f;
+    float MaxHealth = MoonKnightConstants::PlayerMaxHealth;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Health")
-    float CurrentHealth = 100.f;
+    float CurrentHealth = MoonKnightConstants::PlayerMaxHealth;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
-    ECombatState CombatState = ECombatState::Idle;
+    UPROPERTY(EditAnywhere, Category = "Combat")
+    int32 MaxComboLength = MoonKnightConstants::MaxComboHits;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
     EWeaponType EquippedWeapon = EWeaponType::Sword;

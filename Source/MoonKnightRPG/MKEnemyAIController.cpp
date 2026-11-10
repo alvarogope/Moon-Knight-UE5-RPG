@@ -19,8 +19,9 @@ AMKEnemyAIController::AMKEnemyAIController()
 //===================================================//
     SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightConfig"));
     SightConfig->SightRadius = MoonKnightConstants::EnemySightRadius;
-    SightConfig->LoseSightRadius = MoonKnightConstants::EnemySightRadius * 1.25f;
+    SightConfig->LoseSightRadius = MoonKnightConstants::EnemySightRadius * MoonKnightConstants::EnemyLoseSightMultiplier;
     SightConfig->PeripheralVisionAngleDegrees = MoonKnightConstants::EnemySightAngleDegrees;
+    SightConfig->SetMaxAge(MoonKnightConstants::EnemySightMaxAge);
     SightConfig->DetectionByAffiliation.bDetectEnemies = true;
     SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
     SightConfig->DetectionByAffiliation.bDetectFriendlies = false;
@@ -30,8 +31,10 @@ AMKEnemyAIController::AMKEnemyAIController()
 //===================================================//
     HearingConfig = CreateDefaultSubobject<UAISenseConfig_Hearing>(TEXT("HearingConfig"));
     HearingConfig->HearingRange = MoonKnightConstants::EnemyHearingRadius;
+    HearingConfig->SetMaxAge(MoonKnightConstants::EnemyHearingMaxAge);
     HearingConfig->DetectionByAffiliation.bDetectEnemies = true;
     HearingConfig->DetectionByAffiliation.bDetectNeutrals = true;
+
 
     PerceptionComp->ConfigureSense(*SightConfig);
     PerceptionComp->ConfigureSense(*HearingConfig);
