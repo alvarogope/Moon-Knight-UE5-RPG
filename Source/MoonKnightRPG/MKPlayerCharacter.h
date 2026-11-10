@@ -28,6 +28,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Combat")
     void ResetCombatState();
 
+    UFUNCTION(BlueprintCallable, Category = "Combat")
+    void EquipWeapon(EWeaponType Weapon);
+
     //--- NO HEALING IN COMBAT ---//
     UFUNCTION(BlueprintCallable, Category = "Health")
     bool TryHealth(float Amount);
@@ -49,6 +52,10 @@ protected:
 
     void HandleDeath();
     void Respawn();
+
+    //--- Combat flag: cleared after OutOfCombatDelay without attacking or taking damage ---//
+    void EnterCombat();
+    void LeaveCombat();
 
     //--- STATE ---//
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
@@ -72,6 +79,10 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	bool bInCombat = false;
 
+    //--- Fallback respawn point when no willow tree has been registered ---//
+    FVector SpawnLocation = FVector::ZeroVector;
+
     FTimerHandle RespawnTimerHandle;
-    FTimerHandle ComboResetTimerHandle;
+    FTimerHandle CombatStateTimerHandle;
+    FTimerHandle LeaveCombatTimerHandle;
 };

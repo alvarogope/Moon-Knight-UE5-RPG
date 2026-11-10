@@ -44,4 +44,7 @@ namespace MoonKnightConstants
     
     //--- Combat ---
     constexpr float ComboResetDelay        = 1.2f;
+    constexpr float DodgeDuration          = 0.6f;
+    constexpr float ParryWindow            = 0.4f;
+    constexpr float OutOfCombatDelay       = 5.0f;
 }

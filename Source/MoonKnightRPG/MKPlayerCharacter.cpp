@@ -2,6 +2,7 @@
 #include "MKGameInstance.h"
 #include "MoonKnightRPG.h"
 #include "TimerManager.h"
+#include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
 
 AMKPlayerCharacter::AMKPlayerCharacter()
@@ -13,6 +14,13 @@ void AMKPlayerCharacter::BeginPlay()
 {
     Super::BeginPlay();
     CurrentHealth = MaxHealth;
+    SpawnLocation = GetActorLocation();
+
+    //--- Restore the weapon carried over from the previous level ---//
+    if (const UMKGameInstance* GI = Cast<UMKGameInstance>(UGameplayStatics::GetGameInstance(this)))
+    {
+        EquippedWeapon = GI->GetSavedWeapon();
+    }
 }
 
 float AMKPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
@@ -24,7 +32,7 @@ float AMKPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dam
     }
 
     //==================================//
-    //--- PARRY TO HUMANOIDS ENEMIES ---//  
+    //--- PARRY TO HUMANOIDS ENEMIES ---//
     //==================================//
     if (CombatState == ECombatState::Parrying)
     {
@@ -33,7 +41,7 @@ float AMKPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dam
 
     const float Applied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
     CurrentHealth = FMath::Clamp(CurrentHealth - Applied, 0.f, MaxHealth);
-    bInCombat = true;
+    EnterCombat();
 
     if (CurrentHealth <= 0.f)
     {
@@ -44,25 +52,23 @@ float AMKPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dam
 
 void AMKPlayerCharacter::LightAttack()
 {
-    
-    if (CombatState == ECombatState::Dead || CombatState == ECombatState::Staggered)
+    if (CombatState != ECombatState::Idle && CombatState != ECombatState::Attacking)
     {
         return;
     }
 
-    //===================================//
-    //---------- ADVANCE COMBO ---------//
-    //==================================//
-    ComboCounter = (ComboCounter % MaxComboLength) + 1;
+    if (ComboCounter >= MaxComboLength)
+    {
+        return;
+    }
+
+    ++ComboCounter;
     CombatState = ECombatState::Attacking;
-    bInCombat = true;
+    EnterCombat();
     OnComboAttack(ComboCounter);
 
-    //=========================================//
-    //--- RESET THE COMBO WITHOUT FOLLOW-UP ---//
-    //=========================================//
-    GetWorldTimerManager().SetTimer(ComboResetTimerHandle, this,
-        &AMKPlayerCharacter::ResetCombatState, 1.2f, false);
+    GetWorldTimerManager().SetTimer(CombatStateTimerHandle, this,
+        &AMKPlayerCharacter::ResetCombatState, MoonKnightConstants::ComboResetDelay, false);
 }
 
 void AMKPlayerCharacter::Dodge()
@@ -76,6 +82,10 @@ void AMKPlayerCharacter::Dodge()
     //------------ NO STAMINA LOSS ------------//
     //=========================================//
     CombatState = ECombatState::Dodging;
+
+    //--- Shares the combo timer handle, so a pending combo reset can't cut the dodge short ---//
+    GetWorldTimerManager().SetTimer(CombatStateTimerHandle, this,
+        &AMKPlayerCharacter::ResetCombatState, MoonKnightConstants::DodgeDuration, false);
 }
 
 void AMKPlayerCharacter::StartParry()
@@ -83,6 +93,9 @@ void AMKPlayerCharacter::StartParry()
     if (CombatState == ECombatState::Idle || CombatState == ECombatState::Dodging)
     {
         CombatState = ECombatState::Parrying;
+
+        GetWorldTimerManager().SetTimer(CombatStateTimerHandle, this,
+            &AMKPlayerCharacter::ResetCombatState, MoonKnightConstants::ParryWindow, false);
     }
 }
 
@@ -95,6 +108,16 @@ void AMKPlayerCharacter::ResetCombatState()
 	}
 }
 
+void AMKPlayerCharacter::EquipWeapon(EWeaponType Weapon)
+{
+    EquippedWeapon = Weapon;
+
+    if (UMKGameInstance* GI = Cast<UMKGameInstance>(UGameplayStatics::GetGameInstance(this)))
+    {
+        GI->SaveEquippedWeapon(Weapon);
+    }
+}
+
 bool AMKPlayerCharacter::TryHealth(float Amount)
 {
     if (bInCombat || CombatState == ECombatState::Dead)
@@ -105,9 +128,22 @@ bool AMKPlayerCharacter::TryHealth(float Amount)
     return true;
 }
 
+void AMKPlayerCharacter::EnterCombat()
+{
+    bInCombat = true;
+    GetWorldTimerManager().SetTimer(LeaveCombatTimerHandle, this,
+        &AMKPlayerCharacter::LeaveCombat, MoonKnightConstants::OutOfCombatDelay, false);
+}
+
+void AMKPlayerCharacter::LeaveCombat()
+{
+    bInCombat = false;
+}
+
 void AMKPlayerCharacter::HandleDeath()
 {
     CombatState = ECombatState::Dead;
+    GetWorldTimerManager().ClearTimer(CombatStateTimerHandle);
     DisableInput(Cast<APlayerController>(GetController()));
 
     OnDeathFadeStart(MoonKnightConstants::DeathFadeDuration);
@@ -122,11 +158,21 @@ void AMKPlayerCharacter::HandleDeath()
 //=========================================//
 void AMKPlayerCharacter::Respawn()
 {
-    if (UMKGameInstance* GI = Cast<UMKGameInstance>(UGameplayStatics::GetGameInstance(this)))
+    UMKGameInstance* GI = Cast<UMKGameInstance>(UGameplayStatics::GetGameInstance(this));
+    if (GI && GI->HasCheckpoint())
     {
         GI->RespawnAtLastWillowTree(this);
     }
+    else
+    {
+        SetActorLocation(SpawnLocation, false, nullptr, ETeleportType::TeleportPhysics);
+    }
+
+    //--- Set directly: ResetCombatState() ignores the Dead state ---//
     CurrentHealth = MaxHealth;
-    ResetCombatState();
+    CombatState = ECombatState::Idle;
+    ComboCounter = 0;
+    GetWorldTimerManager().ClearTimer(LeaveCombatTimerHandle);
+    bInCombat = false;
     EnableInput(Cast<APlayerController>(GetController()));
 }

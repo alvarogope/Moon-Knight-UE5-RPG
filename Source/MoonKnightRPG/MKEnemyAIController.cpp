@@ -2,6 +2,7 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
 #include "Perception/AISenseConfig_Hearing.h"
+#include "Perception/AISense_Sight.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "MKPlayerCharacter.h"
@@ -59,6 +60,12 @@ void AMKEnemyAIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus 
     }
 
     const bool bIsPlayer = Cast<AMKPlayerCharacter>(Actor) != nullptr;
+
+    //--- Every pawn is neutral, so ignore other pawns in sight (their noises still get investigated) ---//
+    if (!bIsPlayer && Stimulus.Type == UAISense::GetSenseID<UAISense_Sight>())
+    {
+        return;
+    }
 
     if (Stimulus.WasSuccessfullySensed())
     {
