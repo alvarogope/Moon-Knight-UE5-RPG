@@ -65,20 +65,20 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Health")
     float CurrentHealth = MoonKnightConstants::PlayerMaxHealth;
 
-    UPROPERTY(EditAnywhere, Category = "Combat")
-    int32 MaxComboLength = MoonKnightConstants::MaxComboHits;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+    ECombatState CombatState = ECombatState::Idle;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
     EWeaponType EquippedWeapon = EWeaponType::Sword;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
-	int32 ComboCounter = 0;
+    int32 ComboCounter = 0;
 
     UPROPERTY(EditAnywhere, Category = "Combat")
-	int32 MaxComboLength = 4;
+    int32 MaxComboLength = MoonKnightConstants::MaxComboHits;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
-	bool bInCombat = false;
+    bool bInCombat = false;
 
     //--- Fallback respawn point when no willow tree has been registered ---//
     FVector SpawnLocation = FVector::ZeroVector;

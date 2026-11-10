@@ -24,6 +24,7 @@ void AMKPlayerCharacter::BeginPlay()
     }
 }
 
+void AMKPlayerCharacter::LightAttack()
 
 float AMKPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
     AController* EventInstigator, AActor* DamageCauser)
