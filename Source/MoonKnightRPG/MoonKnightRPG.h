@@ -41,4 +41,7 @@ namespace MoonKnightConstants
     
     //--- Skill tree caps ---
     constexpr float MaxBowDamageBonus      = 100.0f;
+    
+    //--- Combat ---
+    constexpr float ComboResetDelay        = 1.2f;
 }

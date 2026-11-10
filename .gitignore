@@ -1,0 +1,14 @@
+# Unreal Engine generated folders
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+Plugins/**/Binaries/
+Plugins/**/Intermediate/
+
+# IDE generated files
+.vs/
+*.sln
+*.suo
+*.vcxproj*
+.idea/.idea.MoonKnightRPG*/

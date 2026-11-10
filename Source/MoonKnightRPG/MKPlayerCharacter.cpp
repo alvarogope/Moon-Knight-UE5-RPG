@@ -44,6 +44,7 @@ float AMKPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dam
 
 void AMKPlayerCharacter::LightAttack()
 {
+    
     if (CombatState == ECombatState::Dead || CombatState == ECombatState::Staggered)
     {
         return;

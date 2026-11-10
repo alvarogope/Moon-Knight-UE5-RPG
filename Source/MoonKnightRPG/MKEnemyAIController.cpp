@@ -53,24 +53,25 @@ void AMKEnemyAIController::OnPossess(APawn* InPawn)
 void AMKEnemyAIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
     UBlackboardComponent* BB = GetBlackboardComponent();
-    if(!BB)
+    if (!BB)
     {
         return;
     }
 
-
-    if (AMKPlayerCharacter* Player = Cast<AMKPlayerCharacter>(Actor))
-    {
-        if (Stimulus.WasSuccessfullySensed())
-        {
-            BB->SetValueAsObject(TargetActorKey, Actor);
-            BB->SetValueAsVector(InvestigateLocationKey, Stimulus.StimulusLocation);
-        }
-        return;
-    }
+    const bool bIsPlayer = Cast<AMKPlayerCharacter>(Actor) != nullptr;
 
     if (Stimulus.WasSuccessfullySensed())
     {
+        if (bIsPlayer)
+        {
+            BB->SetValueAsObject(TargetActorKey, Actor);
+        }
+        BB->SetValueAsVector(InvestigateLocationKey, Stimulus.StimulusLocation);
+    }
+    else if (bIsPlayer)
+    {
+        //--- LOST SIGHT: drop the target, investigate the last known position ---//
+        BB->ClearValue(TargetActorKey);
         BB->SetValueAsVector(InvestigateLocationKey, Stimulus.StimulusLocation);
     }
 }
